@@ -11,7 +11,7 @@ class CustomerUpdate(BaseModel):
     address: str
 
 class Customer(CustomerBase):
-    customerId: int
+    customer_id: int
     user: User
 
     class Config:
