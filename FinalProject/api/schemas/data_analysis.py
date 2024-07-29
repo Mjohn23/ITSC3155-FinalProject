@@ -17,5 +17,5 @@ class DataAnalysis(DataAnalysisBase):
     data: str
     analysis_date: datetime
 
-class ConfigDict:
-    from_attributes = True
+    class ConfigDict:
+        from_attributes = True
