@@ -5,7 +5,7 @@ from ..dependencies.database import Base
 class Customer(Base):
     __tablename__ = "customers"
 
-    customerId = Column(Integer, ForeignKey('users.userId'), primary_key=True, index=True)
+    customer_id = Column(Integer, ForeignKey('users.userId'), primary_key=True, index=True)
     address = Column(String(200))
 
     user = relationship("User", back_populates="customer")
