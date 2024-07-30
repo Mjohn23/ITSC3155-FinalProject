@@ -21,6 +21,7 @@ class Promotion(PromotionBase):
     discount_percentage: int
     start_date = datetime
     end_date = datetime
+    owner_id: int
 
     class ConfigDict:
         from_attributes = True

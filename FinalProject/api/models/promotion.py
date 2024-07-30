@@ -12,3 +12,5 @@ class Promotion(Base):
     promoCode = Column(String(100))
     start_date = Column(datetime)
     end_date = Column(datetime)
+    owner_id = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)
+    owner = relationship("RestaurantOwner", back_populates="promotions")
