@@ -4,7 +4,7 @@ from datetime import datetime
 from ..dependencies.database import Base
 
 class DataAnalysis(Base):
-    __tablename__ = "data analysis"
+    __tablename__ = "data_analysis"
 
     id = Column(Integer, primary_key = True, index = True, autoincrement = True)
     data = Column(String(100))
