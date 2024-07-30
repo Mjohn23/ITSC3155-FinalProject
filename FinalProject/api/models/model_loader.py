@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-from . import user, customer, orders, menu_item, promotion, data_analysis, order_menu_item
-=======
-from . import user, customer, orders, menu_item, promotion, data_analysis, feedback, payment
->>>>>>> fb8c1866438813300a5517d081a150c62fb4000c
+from . import user, customer, orders, menu_item, promotion, data_analysis, feedback, payment, order_menu_item, restaurant_owner, restaurant_staff
 from ..dependencies.database import engine
 
 def index():
@@ -12,11 +8,10 @@ def index():
     menu_item.Base.metadata.create_all(engine)
     promotion.Base.metadata.create_all(engine)
     data_analysis.Base.metadata.create_all(engine)
-<<<<<<< HEAD
-    order_menu_item.Base.metadata.create_all(engine)
-=======
     feedback.Base.metadata.create_all(engine)
     payment.Base.metadata.create_all(engine)
+    order_menu_item.Base.metadata.create_all(engine)
+    restaurant_owner.Base.metadata.create_all(engine)
+    restaurant_staff.Base.metadata.create_all(engine)
 
 
->>>>>>> fb8c1866438813300a5517d081a150c62fb4000c
