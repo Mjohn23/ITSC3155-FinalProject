@@ -8,7 +8,7 @@ class Payment(Base):
 
     payment_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.order_id"))
-    payment_method = Column(String, nullable=False)
+    payment_method = Column(String(50), nullable=False)  
     amount = Column(DECIMAL, nullable=False)
     payment_date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 

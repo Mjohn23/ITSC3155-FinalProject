@@ -1,16 +1,16 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from ..dependencies.database import Base
-
-
 
 class Promotion(Base):
     __tablename__ = "promotions"
 
-    promotionName = Column(String(100), primary_key = True, index = True, autoincrement = True)
-    promoCode = Column(String, primary_key=True, index=True)
-    start_date = Column(datetime)
-    end_date = Column(datetime)
+    promotion_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    promotion_name = Column(String(100), nullable=False)
+    promo_code = Column(String(100), nullable=False)
+    start_date = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    end_date = Column(DateTime, nullable=False)
     owner_id = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)
+
     owner = relationship("RestaurantOwner", back_populates="promotions")

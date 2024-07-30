@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from .order import Order
 
 class PaymentBase(BaseModel):
     payment_method: str
@@ -18,7 +17,8 @@ class PaymentUpdate(BaseModel):
 
 class Payment(PaymentBase):
     payment_id: int
-    order: Order
+    order: 'Order'  
 
-    class ConfigDict:
+    class Config:
+        orm_mode = True
         from_attributes = True
