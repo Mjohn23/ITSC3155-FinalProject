@@ -9,7 +9,7 @@ class Promotion(Base):
     __tablename__ = "promotions"
 
     promotionName = Column(String(100), primary_key = True, index = True, autoincrement = True)
-    promoCode = Column(String(100))
+    promoCode = Column(String, primary_key=True, index=True)
     start_date = Column(datetime)
     end_date = Column(datetime)
     owner_id = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)

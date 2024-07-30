@@ -11,5 +11,5 @@ class Feedback(Base):
     rating = Column(Integer, nullable=False)
     comments = Column(String, nullable=True)
 
-    customer = relationship("Customer", back_populates="feedback")
-    order = relationship("Order", back_populates="feedback")
+    customer = relationship("Customer", back_populates="feedbacks")
+    order = relationship("Order", back_populates="feedbacks")
