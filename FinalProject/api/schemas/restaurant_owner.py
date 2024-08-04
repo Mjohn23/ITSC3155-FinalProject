@@ -14,5 +14,5 @@ class RestaurantOwner(RestaurantOwnerBase):
     ownerId: int
     user: User
 
-    class Config:
-        orm_mode = True
+class ConfigDict:
+    from_attributes = True

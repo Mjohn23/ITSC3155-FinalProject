@@ -18,5 +18,5 @@ class UserUpdate(BaseModel):
 class User(UserBase):
     userId: int
 
-    class Config:
-        orm_mode = True
+class ConfigDict:
+    from_attributes = True

@@ -14,5 +14,5 @@ class RestaurantStaff(RestaurantStaffBase):
     staffId: int
     user: User
 
-    class Config:
-        orm_mode = True
+class ConfigDict:
+    from_attributes = True

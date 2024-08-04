@@ -14,5 +14,5 @@ class Customer(CustomerBase):
     customer_id: int
     user: User
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True
