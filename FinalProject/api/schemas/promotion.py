@@ -19,9 +19,9 @@ class PromotionUpdate(BaseModel):
 class Promotion(PromotionBase):
     promotion_name: str
     discount_percentage: int
-    start_date = datetime
-    end_date = datetime
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
     owner_id: int
 
-    class ConfigDict:
+    class Config:
         from_attributes = True
