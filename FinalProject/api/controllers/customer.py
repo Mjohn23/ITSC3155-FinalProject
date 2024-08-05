@@ -5,8 +5,10 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
     new_customer = model.Customer(
-        userId=request.userId,
-        address=request.address
+        name=request.name,
+        phone=request.phone,
+        address=request.address,
+        userId=request.userId if hasattr(request, 'userId') else None
     )
 
     try:

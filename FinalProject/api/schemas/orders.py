@@ -11,7 +11,7 @@ class OrderBase(BaseModel):
     order_date: Optional[datetime] = None
 
 class OrderCreate(OrderBase):
-    customer_id: int
+    customer_id: Optional[int] = None
 
 class OrderUpdate(BaseModel):
     total_amount: Optional[float] = None
@@ -21,7 +21,7 @@ class OrderUpdate(BaseModel):
 
 class Order(OrderBase):
     order_id: int
-    customer: Customer
+    customer: Optional[Customer] = None
     payment: Optional[Payment] = None
 
     class ConfigDict:

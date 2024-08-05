@@ -6,8 +6,10 @@ class Customer(Base):
     __tablename__ = "customers"
 
     customer_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    userId = Column(Integer, ForeignKey('users.userId'), nullable=True)  
-    address = Column(String(200))
+    userId = Column(Integer, ForeignKey('users.userId'), nullable=True)
+    name = Column(String(200), nullable=True)
+    phone = Column(String(20), nullable=True)
+    address = Column(String(200), nullable=True)
 
     user = relationship("User", back_populates="customer")
     orders = relationship("Order", back_populates="customer")
