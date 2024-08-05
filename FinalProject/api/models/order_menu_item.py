@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from ..dependencies.database import Base
 
-class OrderMenu(Base):
+class OrderMenuItem(Base):
     __tablename__ = "order_menu_item"
 
     order_menu_item_id = Column(Integer, primary_key = True, index = True, autoincrement = True)
