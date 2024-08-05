@@ -11,7 +11,7 @@ class OrderMenuItemBase(BaseModel):
 class OrderMenuItemCreate(OrderMenuItemBase):
     pass
 
-class OrderMenuUpdate(BaseModel):
+class OrderMenuItemUpdate(BaseModel):
     quantity: Optional[int] = None
 
 class OrderMenuItem(OrderMenuItemBase):

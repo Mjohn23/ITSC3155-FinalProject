@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from .customer import Customer
-from .order import Order
+from .orders import Order
 
 class FeedbackBase(BaseModel):
     rating: int
