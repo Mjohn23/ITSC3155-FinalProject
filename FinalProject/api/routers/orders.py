@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, status, Response
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..controllers import orders as controller
 from ..schemas import orders as schema
 from ..dependencies.database import get_db
+from datetime import date
 
 router = APIRouter(
     tags=['Orders'],
@@ -28,3 +29,7 @@ def update_order(order_id: int, request: schema.OrderUpdate, db: Session = Depen
 @router.delete("/{order_id}")
 def delete_order(order_id: int, db: Session = Depends(get_db)):
     return controller.delete(db=db, item_id=order_id)
+
+@router.get("/revenue/{order_date}", response_model=float)
+def calculate_daily_revenue(order_date: date, db: Session = Depends(get_db)):
+    return controller.calculate_daily_revenue(db=db, order_date=order_date)
