@@ -20,5 +20,5 @@ class Feedback(FeedbackBase):
     customer: Customer
     order: Order
 
-    class ConfigDict:
+    class Config:
         from_attributes = True

@@ -63,3 +63,11 @@ def delete(db: Session, item_id: int):
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def read_low_reviews(db: Session, threshold: int = 3):
+    try:
+        result = db.query(model.Feedback).filter(model.Feedback.rating < threshold).all()
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return result

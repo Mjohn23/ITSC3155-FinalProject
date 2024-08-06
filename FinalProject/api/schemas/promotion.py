@@ -25,7 +25,7 @@ class Promotion(PromotionBase):
     ownerId: int
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 class ApplyPromoCode(BaseModel):
     order_id: int

@@ -4,6 +4,21 @@ from ..models import orders as model
 from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
+    # Check ingredient availability
+    for item in request.order_menu_items:
+        menu_item = db.query(menu_model.MenuItem).filter(menu_model.MenuItem.menu_item_id == item.menu_item_id).first()
+        if menu_item:
+            ingredients = json.loads(menu_item.ingredients)
+            for ingredient in ingredients:
+                available_quantity = ingredient['quantity']  # Assuming quantity is stored in the JSON
+                required_quantity = ingredient['quantity_required'] * item.quantity
+                if available_quantity < required_quantity:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail=f"Not enough {ingredient['name']} to fulfill the order."
+                    )
+
+    # Create order if all ingredients are available
     new_order = model.Order(
         customer_id=request.customer_id,
         total_amount=request.total_amount,

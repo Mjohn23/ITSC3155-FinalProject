@@ -12,6 +12,6 @@ class Promotion(Base):
     discount_percentage = Column(Float, nullable=False)
     start_date = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     end_date = Column(DateTime, nullable=False)
-    owner_id = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)
+    ownerId = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)
 
     owner = relationship("RestaurantOwner", back_populates="promotions")

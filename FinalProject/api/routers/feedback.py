@@ -28,3 +28,7 @@ def update_one_feedback(feedback_id: int, request: schema.FeedbackUpdate, db: Se
 @router.delete("/{feedback_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_one_feedback(feedback_id: int, db: Session = Depends(get_db)):
     return controller.delete(db=db, item_id=feedback_id)
+
+@router.get("/low_reviews/{threshold}", response_model=list[schema.Feedback])
+def read_low_reviews(threshold: int, db: Session = Depends(get_db)):
+    return controller.read_low_reviews(db=db, threshold=threshold)
