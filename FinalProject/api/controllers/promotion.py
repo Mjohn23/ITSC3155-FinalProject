@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
 from ..models import promotion as model
 from sqlalchemy.exc import SQLAlchemyError
+from ..schemas.promotion import ApplyPromoCode
+from ..schemas.orders import Order
 
 def create(db: Session, request):
     new_promotion = model.Promotion(
@@ -10,7 +12,7 @@ def create(db: Session, request):
         discount_percentage=request.discount_percentage,
         start_date=request.start_date,
         end_date=request.end_date,
-        owner_id=request.owner_id
+        ownerId=request.ownerId
     )
 
     try:
@@ -65,3 +67,23 @@ def delete(db: Session, item_id):
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def apply_promo_code(db: Session, request: ApplyPromoCode):
+    promotion = db.query(model.Promotion).filter(model.Promotion.promo_code == request.promo_code).first()
+    if not promotion:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Promotion not found!")
+    
+    order = db.query(Order).filter(Order.order_id == request.order_id).first()
+    if not order:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
+
+    order.total_amount -= order.total_amount * (promotion.discount_percentage / 100)
+
+    try:
+        db.commit()
+        db.refresh(order)
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
+    return order

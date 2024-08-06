@@ -1,11 +1,28 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
-from ..models import restaurant_staff as model
+from ..models import restaurant_staff as model, user as user_model
 from sqlalchemy.exc import SQLAlchemyError
+from ..schemas.restaurant_staff import RestaurantStaffCreate
 
-def create(db: Session, request):
+def create(db: Session, request: RestaurantStaffCreate):
+    new_user = user_model.User(
+        name=request.name,
+        email=request.email,
+        phone=request.phone,
+        password=request.password,
+        role=request.role
+    )
+
+    try:
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
     new_staff = model.RestaurantStaff(
-        staffId=request.staffId
+        staffId=new_user.userId
     )
 
     try:
@@ -26,7 +43,7 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
-def read_one(db: Session, item_id):
+def read_one(db: Session, item_id: int):
     try:
         staff = db.query(model.RestaurantStaff).filter(model.RestaurantStaff.staffId == item_id).first()
         if not staff:
@@ -36,7 +53,7 @@ def read_one(db: Session, item_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return staff
 
-def update(db: Session, item_id, request):
+def update(db: Session, item_id: int, request: RestaurantStaffCreate):
     try:
         staff = db.query(model.RestaurantStaff).filter(model.RestaurantStaff.staffId == item_id)
         if not staff.first():
@@ -49,7 +66,7 @@ def update(db: Session, item_id, request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return staff.first()
 
-def delete(db: Session, item_id):
+def delete(db: Session, item_id: int):
     try:
         staff = db.query(model.RestaurantStaff).filter(model.RestaurantStaff.staffId == item_id)
         if not staff.first():

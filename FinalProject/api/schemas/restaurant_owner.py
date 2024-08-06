@@ -1,18 +1,19 @@
 from pydantic import BaseModel
-from .user import User
+from typing import Optional
+from .user import User, UserCreate
 
 class RestaurantOwnerBase(BaseModel):
     pass
 
 class RestaurantOwnerCreate(RestaurantOwnerBase):
-    pass
+    user: UserCreate
 
 class RestaurantOwnerUpdate(RestaurantOwnerBase):
-    pass
+    user: Optional[UserCreate] = None
 
 class RestaurantOwner(RestaurantOwnerBase):
     ownerId: int
     user: User
 
-class ConfigDict:
-    from_attributes = True
+    class ConfigDict:
+        from_attributes = True

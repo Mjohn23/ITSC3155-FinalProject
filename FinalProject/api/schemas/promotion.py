@@ -10,6 +10,7 @@ class PromotionBase(BaseModel):
 
 class PromotionCreate(PromotionBase):
     promotion_name: str
+    ownerId: int
 
 class PromotionUpdate(BaseModel):
     discount_percentage: Optional[int] = None
@@ -21,7 +22,11 @@ class Promotion(PromotionBase):
     discount_percentage: int
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
-    owner_id: int
+    ownerId: int
 
     class Config:
         from_attributes = True
+
+class ApplyPromoCode(BaseModel):
+    order_id: int
+    promo_code: str

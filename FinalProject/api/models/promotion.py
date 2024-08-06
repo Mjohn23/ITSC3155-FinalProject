@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from ..dependencies.database import Base
@@ -9,6 +9,7 @@ class Promotion(Base):
     promotion_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     promotion_name = Column(String(100), nullable=False)
     promo_code = Column(String(100), nullable=False)
+    discount_percentage = Column(Float, nullable=False)
     start_date = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     end_date = Column(DateTime, nullable=False)
     owner_id = Column(Integer, ForeignKey('restaurant_owners.ownerId'), nullable=False)

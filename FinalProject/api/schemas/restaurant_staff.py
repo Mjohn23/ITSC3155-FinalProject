@@ -1,18 +1,23 @@
 from pydantic import BaseModel
-from .user import User
+from typing import Optional
+from .user import User, UserCreate
 
 class RestaurantStaffBase(BaseModel):
     pass
 
 class RestaurantStaffCreate(RestaurantStaffBase):
-    pass
+    name: str
+    email: str
+    phone: str
+    password: str
+    role: str
 
 class RestaurantStaffUpdate(RestaurantStaffBase):
     pass
 
 class RestaurantStaff(RestaurantStaffBase):
     staffId: int
-    user: User
+    user: UserCreate
 
-class ConfigDict:
-    from_attributes = True
+    class Config:
+        from_attributes = True

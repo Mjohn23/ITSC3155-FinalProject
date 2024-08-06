@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends, status, Response
 from sqlalchemy.orm import Session
 from ..controllers import promotion as controller
 from ..schemas import promotion as schema
+from ..schemas.orders import Order
 from ..dependencies.database import get_db
 
 router = APIRouter(
-    tags=['Promotion'],
+    tags=['Promotions'],
     prefix="/promotions"
 )
 
@@ -28,3 +29,7 @@ def update_one_promotion(promotion_id: int, request: schema.PromotionUpdate, db:
 @router.delete("/{promotion_id}")
 def delete_one_promotion(promotion_id: int, db: Session = Depends(get_db)):
     return controller.delete(db=db, item_id=promotion_id)
+
+@router.post("/apply", response_model=Order)
+def apply_promo_code(request: schema.ApplyPromoCode, db: Session = Depends(get_db)):
+    return controller.apply_promo_code(db=db, request=request)

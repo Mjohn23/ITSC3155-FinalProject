@@ -1,11 +1,29 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
 from ..models import restaurant_owner as model
+from ..models import user as user_model
 from sqlalchemy.exc import SQLAlchemyError
+from ..schemas.restaurant_owner import RestaurantOwnerCreate, RestaurantOwnerUpdate
 
-def create(db: Session, request):
+def create(db: Session, request: RestaurantOwnerCreate):
+    new_user = user_model.User(
+        name=request.user.name,
+        email=request.user.email,
+        phone=request.user.phone,
+        role=request.user.role,
+        password=request.user.password
+    )
+
+    try:
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
     new_owner = model.RestaurantOwner(
-        ownerId=request.ownerId
+        ownerId=new_user.userId
     )
 
     try:
@@ -26,7 +44,7 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
-def read_one(db: Session, item_id):
+def read_one(db: Session, item_id: int):
     try:
         owner = db.query(model.RestaurantOwner).filter(model.RestaurantOwner.ownerId == item_id).first()
         if not owner:
@@ -36,7 +54,7 @@ def read_one(db: Session, item_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return owner
 
-def update(db: Session, item_id, request):
+def update(db: Session, item_id: int, request: RestaurantOwnerUpdate):
     try:
         owner = db.query(model.RestaurantOwner).filter(model.RestaurantOwner.ownerId == item_id)
         if not owner.first():
@@ -49,7 +67,7 @@ def update(db: Session, item_id, request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return owner.first()
 
-def delete(db: Session, item_id):
+def delete(db: Session, item_id: int):
     try:
         owner = db.query(model.RestaurantOwner).filter(model.RestaurantOwner.ownerId == item_id)
         if not owner.first():
